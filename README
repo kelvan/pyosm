@@ -1,0 +1,3 @@
+Parser for openstreetmap opening_hours field
+see http://wiki.openstreetmap.org/wiki/Key:opening_hours#Syntax
+you will need ebnf.py from http://pyparsing.wikispaces.com/file/view/ebnf.py

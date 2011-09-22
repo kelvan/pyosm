@@ -1,0 +1,29 @@
+OPENING_HOURS = TWENTYFOUR_SEVEN | OFF | DT; 
+
+DT = (WEEKDAY_RANGE), SPACE, (NT);
+NT = (T), "-", (T);
+T = (HH), ":", (MM);
+
+OFF = (MONTH_DAY), SPACE, "off";
+MONTH_DAY = (MO) | ((MO), SPACE , (DD));
+WEEKDAY_RANGE = (WEEKDAY) | ((WEEKDAY), "-", (WEEKDAY));
+
+(* TIME SECTION *)
+HH = HT, DIGIT;
+MM = MT, DIGIT;
+HT = "0" | "1" | "2";
+MT = "0"| "1" | "2" | "3" | "4" | "5";
+
+(* DAY SECTION *)
+DD = (D, DIGIT);
+D = "0" | "1" | "2" | "3";
+
+(* SPECIAL *)
+TWENTYFOUR_SEVEN = "24/7";
+
+(* BASIC *)
+PDIGIT = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+DIGIT = "0" | PDIGIT;
+MO = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
+WEEKDAY = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
+SPACE = " ";

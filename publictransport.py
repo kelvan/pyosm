@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
+import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
+from xml.sax.saxutils import escape
 from codecs import open
-import sys
 from datetime import datetime
 
 class PublicTransportExtractHandler(ContentHandler):
@@ -31,7 +32,7 @@ class PublicTransportExtractHandler(ContentHandler):
         elif name == 'member':
             self.members += [attrs]
 
-        elif name == 'tag':
+        elif name == 'tag' and not attrs['k'] == "note":
             self.nodeContent[attrs['k']] = attrs['v']
 
             if (attrs['k'] == 'highway' and attrs['v'] == 'bus_stop') or \
@@ -44,18 +45,18 @@ class PublicTransportExtractHandler(ContentHandler):
 
     def endElement(self, name):
         if name == "node":
-            if self.isPublicTransport:
-                self._writer.write('<node id="{id}" lat={lat} lon={lon}>\n'.format(**self.nodeAttributes))
+            if self.isPublicTransport and self.nodeContent.has_key("name"):
+                self._writer.write('<node id="{id}" lat="{lat}" lon="{lon}">\n'.format(**self.nodeAttributes))
                 for key, value in self.nodeContent.items():
-                    self._writer.write('<tag k="%s" v="%s"/>\n' % (key, value))
+                    self._writer.write('<tag k="%s" v="%s"/>\n' % (escape(key.replace('"', '&quot;')), escape(value.replace('"', '&quot;'))))
                 self._writer.write('</node>\n')
             self.reset()
 
         elif name == "relation":
-            if self.isPublicTransport:
-                self._writer.write('<relation id="{id}" uid={uid}\n'.format(**self.nodeAttributes))
+            if self.isPublicTransport and self.nodeContent.has_key("name"):
+                self._writer.write('<relation id="{id}" uid="{uid}">\n'.format(**self.nodeAttributes))
                 for key, value in self.nodeContent.items():
-                    self._writer.write('<tag k="%s" v="%s"/>\n' % (key, value))
+                    self._writer.write('<tag k="%s" v="%s"/>\n' % (escape(key.replace('"', '&quot;')), escape(value.replace('"', '&quot;'))))
                 for member in self.members:
                     self._writer.write('<member type="{type}" ref="{ref}" role="{role}"/>\n'.format(**member))
                 self._writer.write('</relation>\n')

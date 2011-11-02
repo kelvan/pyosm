@@ -28,13 +28,19 @@ def get_all_stations():
     return st
 
 if __name__ == "__main__":
-    for type, lines in get_lines():
-        print (' %s ' % type).center(79, '*')
-        for line in lines:
-            for direction in get_stations(line):
-                print
-                print line + " " + (' %s ' % direction[0]).center(77 - len(line) * 2, '=') + " " + line
-                # use remove_duplicates(direction[1]) if necessary 
-                for station, _ in direction[1]:
-                    print station.center(79)
-        print
+    with open('extracted.wki', 'w') as f:
+        for typ, lines in get_lines():
+            f.write('== %s ==\n' % typ)
+            #print (' %s ' % typ).center(79, '*')
+            for line in lines:
+                f.write('=== %s ===\n' % line)
+                for direction in get_stations(line):
+                    #print
+                    f.write('==== %s ====\n' % direction[0].encode('utf-8'))
+                    #print line + " " + (' %s ' % direction[0]).center(77 - len(line) * 2, '=') + " " + line
+                    # use remove_duplicates(direction[1]) if necessary 
+                    for station, _ in direction[1]:
+                        f.write(' * %s\n' % station.encode('utf-8'))
+                        #print station.center(79)
+            f.flush()
+            #print

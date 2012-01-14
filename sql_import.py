@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import sqlite3
 from xml.dom.minidom import parse
 
@@ -94,3 +95,7 @@ class XmlExtractor:
                 except Exception as e:
                     print e.message
         return list(set(r))
+
+if __name__ == '__main__':
+    xml = XmlExtractor(sys.argv[1])
+    xml.sql_insert()

@@ -1,3 +1,14 @@
 Parser for openstreetmap opening_hours field
 see http://wiki.openstreetmap.org/wiki/Key:opening_hours#Syntax
 you will need ebnf.py from http://pyparsing.wikispaces.com/file/view/ebnf.py
+
+Extract public transport from osm file and save stations and their position to sqlite
+Used by gotovienna
+
+To create station.db for gotovienna get austria.osm from http://download.geofabrik.de/osm/europe/ and run something like:
+
+$ osmosis --read-xml enableDateParsing=no file=austria.osm --bounding-box top=48.322 left=16.185 bottom=48.115 right=16.578 --write-xml file=vienna.osm
+$ python publictransport.py vienna.osm
+$ python sql_import.py file_created_by_last_command
+
+Note: If you are using Arch Linux change python to python2

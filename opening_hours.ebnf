@@ -1,29 +1,25 @@
-OPENING_HOURS = TWENTYFOUR_SEVEN | OFF | DT; 
+OPENING_HOURS := [TWENTYFOUR_SEVEN,OFF,DT]
 
-DT = (WEEKDAY_RANGE), SPACE, (NT);
-NT = (T), "-", (T);
-T = (HH), ":", (MM);
+DT := (WEEKDAY_RANGE),SPACE,(NT)
+NT := (T),"-",(T)
+T := (HH),":",(MM)
 
-OFF = (MONTH_DAY), SPACE, "off";
-MONTH_DAY = (MO) | ((MO), SPACE , (DD));
-WEEKDAY_RANGE = (WEEKDAY) | ((WEEKDAY), "-", (WEEKDAY));
+OFF := (MONTH_DAY),SPACE,"off"
+MONTH_DAY := [(MO), ((MO),SPACE,(DD))]
+WEEKDAY_RANGE := [(WEEKDAY), ((WEEKDAY),"-",(WEEKDAY))]
 
-(* TIME SECTION *)
-HH = HT, DIGIT;
-MM = MT, DIGIT;
-HT = "0" | "1" | "2";
-MT = "0"| "1" | "2" | "3" | "4" | "5";
+HH := HT,DIGIT
+MM := MT,DIGIT
+HT := [0-2]
+MT := [0-5]
 
-(* DAY SECTION *)
-DD = (D, DIGIT);
-D = "0" | "1" | "2" | "3";
+DD := (D,DIGIT)
+D := [0-3]
 
-(* SPECIAL *)
-TWENTYFOUR_SEVEN = "24/7";
+TWENTYFOUR_SEVEN := "24/7"
 
-(* BASIC *)
-PDIGIT = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-DIGIT = "0" | PDIGIT;
-MO = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
-WEEKDAY = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
-SPACE = " ";
+PDIGIT := [1-9]
+DIGIT := [0,PDIGIT]
+MO := ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+WEEKDAY := ["Mo","Tu","We","Th","Fr","Sa","Su"]
+SPACE := " "

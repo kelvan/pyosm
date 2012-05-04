@@ -22,6 +22,11 @@ class PublicTransportExtractHandler(ContentHandler):
         self._writer = open(fn, 'w', "utf-8")
         self._writer.write('<?xml version="1.0" encoding="UTF-8"?>\n')
 
+    def is_public_transport_node(self, attrs):
+        return (attrs['k'] == 'highway' and attrs['v'] in ['bus_stop']) or \
+               (attrs['k'] == 'railway' and (attrs['v'] in ['tram_stop', 'halt', 'station'])) or \
+               (attrs['k'] == 'type' and attrs['v'] == 'public_transport')
+    
     def startElement(self, name, attrs):
         if name == 'node':
             self.nodeAttributes = attrs
@@ -35,9 +40,7 @@ class PublicTransportExtractHandler(ContentHandler):
         elif name == 'tag' and not attrs['k'] == "note":
             self.nodeContent[attrs['k']] = attrs['v']
 
-            if (attrs['k'] == 'highway' and attrs['v'] == 'bus_stop') or \
-                (attrs['k'] == 'railway' and (attrs['v'] == 'tram_stop' or attrs['v'] == 'halt')) or \
-                (attrs['k'] == 'type' and attrs['v'] == 'public_transport'):
+            if (self.is_public_transport_node(attrs)):
                 self.isPublicTransport = True
 
         elif name == 'osm':
